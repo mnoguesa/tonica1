@@ -9,7 +9,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
 
     <style>
-        /* Tipografia Inter per defecte */
         body {
             font-family: "Inter", sans-serif;
         }
@@ -59,7 +58,7 @@
         </button>
 
         <p class="mt-6 text-xs text-gray-400 text-center">
-            Versió 1.0 (síl·laba tònica)
+            Versió 1.1 (síl·laba tònica, depurada)
         </p>
 
     </div>
@@ -124,7 +123,7 @@
         ];
 
         let paraulesDisponibles = [];
-        let paraulaActual = {};
+        let paraulaActual = null;
 
         // Referències al DOM
         const paraulaDisplay = document.getElementById('paraula-display');
@@ -152,6 +151,14 @@
             }
 
             paraulaActual = paraulesDisponibles.pop();
+
+            if (!paraulaActual) {
+                console.error("No s'ha pogut obtenir cap paraula!");
+                paraulaDisplay.textContent = "Error de paraules";
+                return;
+            }
+
+            console.log("Nova paraula:", paraulaActual);
             paraulaDisplay.textContent = paraulaActual.paraula;
 
             feedbackContainer.classList.add('hidden');
@@ -164,6 +171,11 @@
 
         // Comprovar resposta
         function comprovarResposta(respostaUsuari) {
+            if (!paraulaActual) {
+                console.error("No hi ha paraula actual definida.");
+                return;
+            }
+
             agudaBtn.disabled = true;
             planaBtn.disabled = true;
             esdrúixolaBtn.disabled = true;
